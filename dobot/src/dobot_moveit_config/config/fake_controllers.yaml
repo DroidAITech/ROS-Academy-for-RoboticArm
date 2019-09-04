@@ -1,0 +1,11 @@
+controller_list:
+  - name: fake_arm_controller
+    joints:
+      - joint_1
+      - joint_2
+      - joint_5
+      - joint_6
+      - joint_7
+  - name: fake_turn_controller
+    joints:
+      - joint_1

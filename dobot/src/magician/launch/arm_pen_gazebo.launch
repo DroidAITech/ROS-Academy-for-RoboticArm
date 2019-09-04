@@ -1,0 +1,16 @@
+
+
+<launch>
+    <!-- Load the URDF into the ROS Parameter Server -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find magician)/urdf/arm_pen.xacro'" />
+    
+    <!-- Launch Gazebo  -->
+    <include file="$(find magician)/launch/arm_world.launch" />
+
+    <!-- ros_control trajectory control dof arm launch file -->
+    <include file="$(find magician)/launch/arm_pen_states.launch" />   
+
+    <!-- moveit launch file -->
+    <include file="$(find arm_pen_moveit_config)/launch/moveit_planning_execution.launch" />
+
+</launch>

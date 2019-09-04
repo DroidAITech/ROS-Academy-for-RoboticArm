@@ -1,0 +1,19 @@
+controller_list:
+  - name: fake_arm_controller
+    joints:
+      - joint_1
+      - joint_2
+      - joint_5
+      - joint_6
+  - name: fake_turn_base_controller
+    joints:
+      - joint_1
+  - name: fake_gripper_1_controller
+    joints:
+      - joint_jiazi_1
+  - name: fake_turn_gripper_controller
+    joints:
+      - joint_zhijia
+  - name: fake_gripper_2_controller
+    joints:
+      - joint_jiazi_2

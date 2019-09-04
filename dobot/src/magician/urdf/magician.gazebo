@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot>
+
+  <!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/magician</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <!-- base_link -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Write</material>
+  </gazebo>
+
+  <!-- link_1 -->
+  <gazebo reference="link_1">
+    <!-- <material>Gazebo/Orange</material> -->
+  </gazebo>
+
+  <!-- link_2 -->
+  <gazebo reference="link_2">
+    <!-- <material>Gazebo/Green</material> -->
+  </gazebo>
+
+  <!-- link_5 -->
+  <gazebo reference="link_5">
+    <!-- <material>Gazebo/Red</material> -->
+  </gazebo>
+
+  <!-- link_6 -->
+  <gazebo reference="link_6">
+    <!-- <material>Gazebo/Green</material> -->
+  </gazebo>
+
+ 
+
+  </robot>

@@ -1,0 +1,34 @@
+controller_manager_ns: controller_manager
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+    
+controller_list:
+  - name: magician/joint1_position_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_1
+
+  - name: magician/joint2_position_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_2
+
+  - name: magician/joint5_position_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_5
+
+  - name: magician/joint6_position_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_6
+

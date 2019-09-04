@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: magician
+    relative_path: urdf/arm_jiazi.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/magician.srdf
+  CONFIG:
+    author_name: x
+    author_email: x@x.com
+    generated_timestamp: 1556275097

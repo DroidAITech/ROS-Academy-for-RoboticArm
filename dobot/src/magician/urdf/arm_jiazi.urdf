@@ -1,0 +1,224 @@
+<robot name="magician">
+
+    <!-- Defining the colors used in this robot -->
+    <material name="Black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="White">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="Grey">
+        <color rgba="0.9 0.9 0.9 1"/>
+    </material>
+
+    <!--  -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+            <material name="White"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_1" type ="revolute">
+        <origin xyz="0 0 0.024" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link_1"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/>
+    </joint>
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    
+    <joint name="joint_2" type="revolute">
+        <origin xyz="-0.01175 0 0.114" rpy="1.570796325 0 -1.570796325"/>
+        <parent link="link_1"/>
+        <child link="link_2"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+    </joint>
+
+    <link name="link_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_5" type ="revolute">
+        <origin xyz="0.02699 0.13228 -0.01175" rpy="0 3.14159265 0"/>
+        <parent link="link_2"/>
+        <child link="link_5"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+    </joint>
+
+    <link name="link_5">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_6" type ="revolute">
+        <origin xyz="0.07431 -0.12684 0.0" rpy="0 3.14159265 0"/>
+        <parent link="link_5"/>
+        <child link="link_6"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/>
+    </joint>
+
+    <link name="link_6">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_7" type ="fixed">
+        <origin xyz="-0.088 0 0.0" rpy="-1.570796325 -1.5707963250 0"/>
+        <parent link="link_6"/>
+        <child link="link_kuai"/>
+    </joint>
+
+    <link name="link_kuai">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/kuai.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/kuai.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_zhijia" type ="continuous">
+        <origin xyz="0 0 0.0" rpy="0 0 0"/>
+        <parent link="link_kuai"/>
+        <child link="link_zhijia"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="link_zhijia">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/zhijia.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/zhijia.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_jiazi_1" type ="prismatic">
+        <origin xyz="0 -0.024 -0.06" rpy="0 0 0"/>
+        <parent link="link_zhijia"/>
+        <child link="link_jiazi_1"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="100" lower="0" upper="0.011" velocity="1.0"/>
+    </joint>
+
+    <link name="link_jiazi_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi1.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi1.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="joint_jiazi_2" type ="prismatic">
+        <origin xyz="0 0.024 -0.06" rpy="0 0 0"/>
+        <parent link="link_zhijia"/>
+        <child link="link_jiazi_2"/>
+        <axis xyz="0 -1 0"/>
+        <limit effort="100" lower="0" upper="0.011" velocity="1.0"/>
+    </joint>
+
+    <link name="link_jiazi_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi2.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi2.dae"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="virtual_end"/>
+
+    <joint name="end_frame" type="fixed">
+        <origin xyz="-0.082 -0.09 0" rpy="0 0 0"/>
+        <parent link="link_6"/>
+        <child link="virtual_end"/>
+    </joint>
+
+
+</robot>  

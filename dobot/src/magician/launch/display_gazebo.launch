@@ -1,0 +1,40 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find magician)/worlds/magician.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find magician)/urdf/arm_pen.xacro'" />
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model magician -param robot_description"/>
+
+  <!-- ros_control  file -->
+  <!-- <include file="$(find magician)/magician_control/myrobot_control.launch" /> -->
+
+  <!-- 运行joint_state_publisher节点，发布机器人的关节状态
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+
+  <!-- robot_state_publisher，发布tf-->
+  <!--node name="robot_state_publisher_2" pkg="robot_state_publisher" type="state_publisher" /-->
+
+  <!--运行rviz可视化界面-->
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find magician)/config/demo.rviz"/> -->
+
+</launch>

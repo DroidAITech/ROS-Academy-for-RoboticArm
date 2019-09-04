@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<robot name="magician"  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Defining the colors used in this robot -->
+    <material name="Black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="White">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="Grey">
+        <color rgba="0.9 0.9 0.9 1"/>
+    </material>
+
+    <!-- Constants for robot dimensions -->
+    <xacro:property name="PI" value="3.1415926535897931"/>
+    <xacro:property name="mass" value="0.0001" /> <!-- arbitrary value for mass -->
+    <xacro:property name="base_link_a" value="0.16"/>
+    <xacro:property name="base_link_c" value="0.05"/>
+    <xacro:property name="link_1_R" value="0.05"/>
+    <xacro:property name="link_1_l" value="0.1"/>
+    <xacro:property name="link_2_R" value="0.02"/>
+    <xacro:property name="link_2_l" value="0.14"/>
+  
+    <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+    <xacro:include filename="$(find magician)/urdf/magician.gazebo" />
+    <!-- Import Rviz colors -->
+    <xacro:include filename="$(find magician)/urdf/materials.xacro" />
+
+    <link name="world"/>
+
+    <joint name="fixed_world" type="fixed">
+    <!-- <joint name="virtual" type="fixed"> -->
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <!--  -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+            <material name="White"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass}" />
+            <!-- <inertia
+	            ixx="${3 * mass / 12.0 * (base_link_a*base_link_a + base_link_c*base_link_c) + 3 * mass / 4.0 * base_link_c*base_link_c}" ixy="0.0" ixz="0.0"
+	            iyy="${3 * mass / 12.0 * (base_link_a*base_link_a + base_link_c*base_link_c) + 3 * mass / 4.0 * base_link_c*base_link_c}" iyz="0.0"
+	            izz="${3 * mass / 12.0 * (base_link_a*base_link_a + base_link_a*base_link_a)}"/>  
+            </inertial> -->
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>  
+        </inertial>
+    </link>
+
+    <joint name="joint_1" type ="revolute">
+        <origin xyz="0 0 0.024" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link_1"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/>
+        <dynamics damping="0.7" />
+    </joint>
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.STL"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass}" />
+            <!-- <inertia
+	            ixx="${3*mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + 3*mass*(link_1_l*link_1_l/4)}" ixy="0.0" ixz="0.0"
+	            iyy="${3*mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + 3*mass*(link_1_l*link_1_l/4)}" iyz="0.0"
+	            izz="${3*mass/2*link_1_R*link_1_R}"/>
+            </inertial> -->
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    
+    <joint name="joint_2" type="revolute">
+        <origin xyz="-0.01175 0 0.114" rpy="1.570796325 0 -1.570796325"/>
+        <parent link="link_1"/>
+        <child link="link_2"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+        <dynamics damping="0.7" />
+    </joint>
+
+    <link name="link_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.dae"/>
+            </geometry>
+            <!--material name="Black"/-->
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.STL"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass}" />
+            <!-- <inertia
+	            ixx="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}" ixy="0.0" ixz="0.0"
+	            iyy="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}" iyz="0.0"
+	            izz="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}"/> -->
+                <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+    
+    <joint name="joint_5" type ="revolute">
+        <origin xyz="0.02699 0.13228 -0.01175" rpy="0 3.14159265 0"/>
+        <parent link="link_2"/>
+        <child link="link_5"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+        <dynamics damping="0.7" />
+    </joint>
+
+    <link name="link_5">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.dae"/>
+            </geometry>
+            <!-- material name="White"/-->
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.STL"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass}" />
+            <!-- <inertia
+	            ixx="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}" ixy="0.0" ixz="0.0"
+	            iyy="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}" iyz="0.0"
+	            izz="${mass/12*(3*link_1_R*link_1_R+link_1_l*link_1_l) + mass*(link_1_l*link_1_l/4)}"/> -->
+                <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <joint name="joint_6" type ="revolute">
+        <origin xyz="0.07431 -0.12684 0.0" rpy="0 3.14159265 0"/>
+        <parent link="link_5"/>
+        <child link="link_6"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/>
+        <dynamics damping="0.7" />
+    </joint>
+
+    <link name="link_6">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass/10}" />
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <!-- ========= -->
+
+    <joint name="joint_7" type ="fixed">
+        <origin xyz="-0.088 0 0.0" rpy="-1.570796325 -1.5707963250 0"/>
+        <parent link="link_6"/>
+        <child link="link_kuai"/>
+    </joint>
+
+    <link name="link_kuai">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/kuai.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/kuai.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass/10}" />
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <joint name="joint_zhijia" type ="continuous">
+        <origin xyz="0 0 0.0" rpy="0 0 0"/>
+        <parent link="link_kuai"/>
+        <child link="link_zhijia"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="link_zhijia">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/zhijia.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/zhijia.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass/10}" />
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <joint name="joint_jiazi_1" type ="prismatic">
+        <origin xyz="0 -0.024 -0.06" rpy="0 0 0"/>
+        <parent link="link_zhijia"/>
+        <child link="link_jiazi_1"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="100" lower="0" upper="0.011" velocity="1.0"/>
+    </joint>
+
+    <link name="link_jiazi_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi1.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi1.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass/20}" />
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <joint name="joint_jiazi_2" type ="prismatic">
+        <origin xyz="0 0.024 -0.06" rpy="0 0 0"/>
+        <parent link="link_zhijia"/>
+        <child link="link_jiazi_2"/>
+        <axis xyz="0 -1 0"/>
+        <limit effort="100" lower="0" upper="0.011" velocity="1.0"/>
+    </joint>
+
+    <link name="link_jiazi_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi2.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/jiazi2.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${mass/20}" />
+            <inertia
+	            ixx="10" ixy="0.0" ixz="0.0"
+	            iyy="10" iyz="0.0"
+	            izz="10"/>
+        </inertial>
+    </link>
+
+    <link name="virtual_end"/>
+
+    <joint name="end_frame" type="fixed">
+        <origin xyz="-0.082 -0.09 0" rpy="0 0 0"/>
+        <parent link="link_6"/>
+        <child link="virtual_end"/>
+    </joint>
+    <!-- ========= -->
+    
+    <transmission name="tran1">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_1">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor1">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran2">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_2">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor2">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran3">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_5">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor3">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran4">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_6">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor4">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran5">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_zhijia">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor5">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran6">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_jiazi_1">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor6">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="tran7">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_jiazi_2">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor7">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+</robot>  
